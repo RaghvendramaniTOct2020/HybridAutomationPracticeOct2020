@@ -2,6 +2,7 @@ package testscripts;
 import java.util.ArrayList;
 import java.util.List;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.AuthenticationPage;
@@ -10,6 +11,60 @@ import pages.HomePage;
 import pages.MyProfilePage;
 import pojo.CreateAccountDetailspojo;
 public class CreateAccountTest extends TestBase{
+	
+	@Test(dataProvider="AccountUIValidationDataProvider")
+	public void dataDrivenAccountUIValidationTest(String  email,String  Gender,String  firstname,String  lastname,String  password,String  days,String  month,String  year,String  company,String  address,String  city,String  state,String  postcode,
+			String  other,String  phone,String  mobile) {
+		  SoftAssert soft = new SoftAssert();
+			HomePage homePage = new HomePage();
+			System.out.println("STEP-Click on Sign in Option");
+			AuthenticationPage authenticationPage = homePage.clickOnSignIn();
+			System.out.println("STEP-Verify Authentication Header is displayed ");
+			boolean isAuthHeader=authenticationPage.isAuthenticationHeaderVisible();
+			soft.assertTrue(isAuthHeader, "Authentication Header is not displayed");
+			System.out.println("STEP-Enter email address");
+			authenticationPage.enterEmailAdress(email);
+			CreateAccountPage createAccountPage = authenticationPage.clickOnCreateAccount();
+			System.out.println("Verify-Create Account heading page is as expected");
+			boolean isAccountHeadingDisplayed=createAccountPage.isHeadingText();
+			soft.assertTrue(isAccountHeadingDisplayed, "Create Account  Header is not displayed");
+			System.out.println("Navigate to create account page");
+			CreateAccountDetailspojo createAccountDetailspojo=new CreateAccountDetailspojo();
+			createAccountDetailspojo.setGender(Gender);
+			createAccountDetailspojo.setFirstname(firstname);
+			createAccountDetailspojo.setLastname(lastname);
+			createAccountDetailspojo.setPassword(password);
+			createAccountDetailspojo.setDays(days);
+			createAccountDetailspojo.setMonth(month);
+			createAccountDetailspojo.setYear(year);
+			createAccountDetailspojo.setCompany(company);
+			createAccountDetailspojo.setAddress(address);
+			createAccountDetailspojo.setCity(city);
+			createAccountDetailspojo.setState(state);
+			createAccountDetailspojo.setPostcode(postcode);
+			createAccountDetailspojo.setOther(other);
+			createAccountDetailspojo.setPhone(phone);
+			createAccountDetailspojo.setMobile(mobile);
+			
+			createAccountPage.enterCreateAccountDetails(createAccountDetailspojo);
+			MyProfilePage myProfilePage = createAccountPage.clickOnRegistration();
+			String actual = myProfilePage.getHeaderText();
+			String expected = "Raghv Tiwari";
+			Assert.assertEquals(actual, expected, "Verification of headertext failed");
+			soft.assertAll();
+	}
+	
+	@DataProvider(name="AccountUIValidationDataProvider")
+	String[][] dataAccountTest() {
+		String[][] dataAccount=null;
+		try {
+			dataAccount=util.dataAccountValidate.dataLogin();
+		}
+		catch(Exception e) {
+			System.out.println("File not present");
+		}
+		return dataAccount;
+	}
 	
 	@Test
 	public void automationPracticeLogin() {
