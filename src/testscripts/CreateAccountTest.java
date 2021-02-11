@@ -58,7 +58,7 @@ public class CreateAccountTest extends TestBase{
 	String[][] dataAccountTest() {
 		String[][] dataAccount=null;
 		try {
-			dataAccount=util.dataAccountValidate.dataLogin();
+			dataAccount=util.dataAccountValidate.dataAccountCreate();
 		}
 		catch(Exception e) {
 			System.out.println("File not present");

@@ -14,8 +14,8 @@ import org.testng.annotations.Test;
 public class dataAccountValidate {
 	
 	@Test
-	public static  String[][] dataLogin() throws IOException {
-			String filepath="C:\\Java Selenium\\Oct22\\TestRepo_RaghvendraHbridFramework\\HybridAutomationPracticeOct2020\\src\\TestData\\DataAccoutCreate.xlsx";
+	public static  String[][] dataAccountCreate() throws IOException {
+			String filepath=".\\src\\TestData\\DataAccoutCreate.xlsx";
 			File file=new File(filepath);
 			FileInputStream inputstream=new FileInputStream(file);
 			Workbook wb=new XSSFWorkbook(inputstream);
