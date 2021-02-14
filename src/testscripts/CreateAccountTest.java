@@ -1,4 +1,5 @@
 package testscripts;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.testng.Assert;
@@ -10,6 +11,7 @@ import pages.CreateAccountPage;
 import pages.HomePage;
 import pages.MyProfilePage;
 import pojo.CreateAccountDetailspojo;
+import util.dataAccountValidate;
 public class CreateAccountTest extends TestBase{
 	
 	@Test(dataProvider="AccountUIValidationDataProvider")
@@ -54,6 +56,56 @@ public class CreateAccountTest extends TestBase{
 			soft.assertAll();
 	}
 	
+	@Test(dataProvider="PojoDataProvider")
+	public void dataDrivenAccountUIValidationTestpojo(CreateAccountDetailspojo createAccountDetailspojo) {
+		 	SoftAssert soft = new SoftAssert();
+			HomePage homePage = new HomePage();
+			System.out.println("STEP-Click on Sign in Option");
+			AuthenticationPage authenticationPage = homePage.clickOnSignIn();
+			System.out.println("STEP-Verify Authentication Header is displayed ");
+			boolean isAuthHeader=authenticationPage.isAuthenticationHeaderVisible();
+			soft.assertTrue(isAuthHeader, "Authentication Header is not displayed");
+			System.out.println("STEP-Enter email address");
+			authenticationPage.enterEmailAdress(createAccountDetailspojo.getEmail());
+			CreateAccountPage createAccountPage = authenticationPage.clickOnCreateAccount();
+			System.out.println("Verify-Create Account heading page is as expected");
+			boolean isAccountHeadingDisplayed=createAccountPage.isHeadingText();
+			soft.assertTrue(isAccountHeadingDisplayed, "Create Account  Header is not displayed");
+			System.out.println("Navigate to create account page");
+			createAccountPage.enterCreateAccountDetails(createAccountDetailspojo);
+			MyProfilePage myProfilePage = createAccountPage.clickOnRegistration();
+			String actual = myProfilePage.getHeaderText();
+			String expected = createAccountDetailspojo.getFirstname()+" "+createAccountDetailspojo.getLastname();
+			Assert.assertEquals(actual, expected, "Verification of headertext failed");
+			soft.assertAll();
+	}
+	
+	@DataProvider(name="PojoDataProvider")
+	Object[][] pojoAccountTest() throws IOException {
+		String[][] dataAccount=dataAccountValidate.dataAccountCreate();
+		Object[][] output=new Object[dataAccount.length][1];
+		CreateAccountDetailspojo createAccountDetailspojo=new CreateAccountDetailspojo();
+		for(int index=0;index<dataAccount.length;index++) {
+			createAccountDetailspojo.setEmail(dataAccount[index][0]);
+			createAccountDetailspojo.setGender(dataAccount[index][1]);
+			createAccountDetailspojo.setFirstname(dataAccount[index][2]);
+			createAccountDetailspojo.setLastname(dataAccount[index][3]);
+			createAccountDetailspojo.setPassword(dataAccount[index][4]);
+			createAccountDetailspojo.setDays(dataAccount[index][5]);
+			createAccountDetailspojo.setMonth(dataAccount[index][6]);
+			createAccountDetailspojo.setYear(dataAccount[index][7]);
+			createAccountDetailspojo.setCompany(dataAccount[index][8]);
+			createAccountDetailspojo.setAddress(dataAccount[index][9]);
+			createAccountDetailspojo.setCity(dataAccount[index][10]);
+			createAccountDetailspojo.setState(dataAccount[index][11]);
+			createAccountDetailspojo.setPostcode(dataAccount[index][12]);
+			createAccountDetailspojo.setOther(dataAccount[index][13]);
+			createAccountDetailspojo.setPhone(dataAccount[index][14]);
+			createAccountDetailspojo.setMobile(dataAccount[index][15]);
+			output[index][0]=createAccountDetailspojo;
+		}
+			return output ;
+	}
 	@DataProvider(name="AccountUIValidationDataProvider")
 	String[][] dataAccountTest() {
 		String[][] dataAccount=null;
@@ -76,7 +128,7 @@ public class CreateAccountTest extends TestBase{
 		boolean isAuthHeader=authenticationPage.isAuthenticationHeaderVisible();
 		soft.assertTrue(isAuthHeader, "Authentication Header is not displayed");
 		System.out.println("STEP-Enter email address");
-		authenticationPage.enterEmailAdress("test1_testvalid58@gmail.com");
+		authenticationPage.enterEmailAdress("test1_testvalid5800@gmail.com");
 		CreateAccountPage createAccountPage = authenticationPage.clickOnCreateAccount();
 		System.out.println("Verify-Create Account heading page is as expected");
 		boolean isAccountHeadingDisplayed=createAccountPage.isHeadingText();
