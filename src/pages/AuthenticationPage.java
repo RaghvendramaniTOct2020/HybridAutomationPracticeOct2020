@@ -10,7 +10,7 @@ import base.PreDefinedAction;
 public class AuthenticationPage extends PreDefinedAction{
 	
 	public void enterEmailAdress(String email) {
-		WebDriverWait wait = new WebDriverWait(driver, 5);
+		WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email_create")))
 		.sendKeys(email);
 		System.out.println("Enter email address");
@@ -27,5 +27,37 @@ public class AuthenticationPage extends PreDefinedAction{
 		WebDriverWait wait = new WebDriverWait(driver, 5);
 		WebElement element=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='	Authentication']")));
 		return element.isDisplayed();
+	}
+	
+	public MyProfilePage doLogin(String emailAddress, String pwd) {
+		enterEmailAddressInLogin(emailAddress);
+		enterPasswordInLogin(pwd);
+		clickOnSignInButton();
+		return new MyProfilePage();
+	}
+
+	public void clickOnSignInButton() {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#SubmitLogin"))).click();
+		System.out.println("STEP - Click on sign button");
+	}
+
+	public void enterPasswordInLogin(String pwd) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='passwd']"))).sendKeys(pwd);
+		System.out.println("STEP - Enter Password on login section");
+	}
+
+	public void enterEmailAddressInLogin(String emailAddress) {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#email"))).sendKeys(emailAddress);
+		System.out.println("STEP - Enter email address on login section");
+	}
+
+	public String verifyErrorMessage() {
+		WebDriverWait wait = new WebDriverWait(driver, 30);
+		return wait.until(
+				ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div[class='alert alert-danger'] li")))
+				.getText();
 	}
 }

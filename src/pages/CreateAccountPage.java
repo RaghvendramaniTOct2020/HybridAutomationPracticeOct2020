@@ -16,7 +16,7 @@ public class CreateAccountPage extends PreDefinedAction {
 	WebDriverWait wait;
 	
 	public boolean isHeadingText() {
-		wait = new WebDriverWait(driver,5);
+		wait = new WebDriverWait(driver,30);
 		return wait.until(ExpectedConditions.textToBe(By.cssSelector("#noSlide h1"), "CREATE AN ACCOUNT"));
 	}
 	private void getGender(String gender) {

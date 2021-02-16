@@ -9,17 +9,18 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class dataAccountValidate {
 	
 	@Test
-	public static  String[][] dataAccountCreate() throws IOException {
-			String filepath=".\\src\\TestData\\DataAccoutCreate.xlsx";
+	public static  String[][] dataAccountCreate(String fileName, String sheetName) throws IOException {
+			String filepath=".\\resources\\TestData\\"+fileName;
 			File file=new File(filepath);
 			FileInputStream inputstream=new FileInputStream(file);
 			Workbook wb=new XSSFWorkbook(inputstream);
-			Sheet sheet=wb.getSheet("dataAccountCreate");
+			Sheet sheet=wb.getSheet(sheetName);
 			int totalRows=sheet.getLastRowNum();
 			int totalcolumn=sheet.getRow(0).getLastCellNum();
 			String[][]data=new String[totalRows][totalcolumn];
@@ -42,5 +43,7 @@ public class dataAccountValidate {
 			//System.out.println(data);
 			return data;
 
-		}
+	}
+	
+	
 }
