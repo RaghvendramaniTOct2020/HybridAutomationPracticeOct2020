@@ -35,7 +35,7 @@ public class LoginAccountTest extends TestBase {
 	public void verifyInvalidEmailAddressLogin() {
 		HomePage homePage = new HomePage();
 		AuthenticationPage authenticationPage = homePage.clickOnSignIn();
-		MyProfilePage myProfilePage = authenticationPage.doLogin("automat@gmail.com", "automation101");
+		MyProfilePage myProfilePage = authenticationPage.doLogin("hiu@gmail.com", "Test_3429");
 
 		String expectedMessage = "Authentication failed.";
 		String actualMessage = authenticationPage.verifyErrorMessage();
@@ -46,7 +46,7 @@ public class LoginAccountTest extends TestBase {
 	public void verifyInvalidPasswordLogin() {
 		HomePage homePage = new HomePage();
 		AuthenticationPage authenticationPage = homePage.clickOnSignIn();
-		MyProfilePage myProfilePage = authenticationPage.doLogin("automation101@gmail.com", "automation");
+		MyProfilePage myProfilePage = authenticationPage.doLogin("hui.test1@gmail.com", "Pest_3429");
 
 		String expectedMessage = "Authentication failed.";
 		String actualMessage = authenticationPage.verifyErrorMessage();
