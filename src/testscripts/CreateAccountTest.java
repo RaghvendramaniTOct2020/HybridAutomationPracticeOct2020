@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
 import pages.AuthenticationPage;
 import pages.CreateAccountPage;
 import pages.HomePage;
@@ -18,7 +19,7 @@ public class CreateAccountTest extends TestBase{
 	public void dataDrivenAccountUIValidationTest(String  email,String  Gender,String  firstname,String  lastname,String  password,String  days,String  month,String  year,String  company,String  address,String  city,String  state,String  postcode,
 			String  other,String  phone,String  mobile) {
 		  SoftAssert soft = new SoftAssert();
-			HomePage homePage = new HomePage();
+			HomePage homePage=HomePage.getInstance();
 			System.out.println("STEP-Click on Sign in Option");
 			AuthenticationPage authenticationPage = homePage.clickOnSignIn();
 			System.out.println("STEP-Verify Authentication Header is displayed ");
@@ -59,7 +60,7 @@ public class CreateAccountTest extends TestBase{
 	@Test(dataProvider="PojoDataProvider")
 	public void dataDrivenAccountUIValidationTestpojo(CreateAccountDetailspojo createAccountDetailspojo) {
 		SoftAssert soft = new SoftAssert();
-		HomePage homePage = new HomePage();
+		HomePage homePage = HomePage.getInstance();
 		System.out.println("STEP-Click on Sign in Option");
 		AuthenticationPage authenticationPage = homePage.clickOnSignIn();
 		System.out.println("STEP-Verify Authentication Header is displayed ");
@@ -121,14 +122,14 @@ public class CreateAccountTest extends TestBase{
 	@Test
 	public void automationPracticeLogin() {
 	    SoftAssert soft = new SoftAssert();
-		HomePage homePage = new HomePage();
+		HomePage homePage = HomePage.getInstance();
 		System.out.println("STEP-Click on Sign in Option");
 		AuthenticationPage authenticationPage = homePage.clickOnSignIn();
 		System.out.println("STEP-Verify Authentication Header is displayed ");
 		boolean isAuthHeader=authenticationPage.isAuthenticationHeaderVisible();
 		soft.assertTrue(isAuthHeader, "Authentication Header is not displayed");
 		System.out.println("STEP-Enter email address");
-		authenticationPage.enterEmailAdress("test1_testvalid5800bb@gmail.com");
+		authenticationPage.enterEmailAdress("test1_testvalidaccount120@gmail.com");
 		CreateAccountPage createAccountPage = authenticationPage.clickOnCreateAccount();
 		System.out.println("Verify-Create Account heading page is as expected");
 		boolean isAccountHeadingDisplayed=createAccountPage.isHeadingText();
@@ -162,14 +163,14 @@ public class CreateAccountTest extends TestBase{
 	@Test
 	public void createAccountUIValidationTest() {
 	    SoftAssert soft = new SoftAssert();
-		HomePage homePage = new HomePage();
-		System.out.println("STEP-Click on Sign in Option");
+	    HomePage homePage=HomePage.getInstance();
+	    System.out.println("STEP-Click on Sign in Option");
 		AuthenticationPage authenticationPage = homePage.clickOnSignIn();
 		System.out.println("STEP-Verify Authentication Header is displayed ");
 		boolean isAuthHeader=authenticationPage.isAuthenticationHeaderVisible();
 		soft.assertTrue(isAuthHeader, "Authentication Header is not displayed");
 		System.out.println("STEP-Enter email address");
-		authenticationPage.enterEmailAdress("test1_testvalid008@gmail.com");
+		authenticationPage.enterEmailAdress("hui.test1@gmail.com");
 		CreateAccountPage createAccountPage = authenticationPage.clickOnCreateAccount();
 		System.out.println("Verify-Create Account heading page is as expected");
 		boolean isAccountHeadingDisplayed=createAccountPage.isHeadingText();

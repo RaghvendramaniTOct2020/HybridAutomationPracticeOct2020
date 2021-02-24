@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
 import pages.AuthenticationPage;
 import pages.CheckoutAddressPage;
 import pages.CheckoutPaymentPage;
@@ -25,8 +26,8 @@ import pojo.ProductDetailsPojo;
 public class E2EProductPurchaseTest extends TestBase{
 	
 	@Test
-	public void e2eProductPurchase() throws IOException {
-	HomePage homePage = new HomePage();
+	public void e2eProductPurchase() throws IOException, InterruptedException {
+	HomePage homePage =HomePage.getInstance();
 	System.out.println("STEP-Click on Sign in");
 	AuthenticationPage authenticationPage = homePage.clickOnSignIn();
 	File file=new File(".\\resources\\TestData\\loginData.properties");
@@ -52,7 +53,6 @@ public class E2EProductPurchaseTest extends TestBase{
 	productDetailsPojo = productDetailsPage.capatureProductDetails(productDetailsPojo);
 	System.out.println("STEP-Click on Add to Cart");
 	productDetailsPage.clickOnAddToCart();
-
 	System.out.println("STEP-Verify Product details");
 	Assert.assertEquals(productDetailsPojo.getProductName(), productDetailsPage.verifyProductName());
 	Assert.assertEquals(productDetailsPojo.getQuantity(), productDetailsPage.verifyQuantity());

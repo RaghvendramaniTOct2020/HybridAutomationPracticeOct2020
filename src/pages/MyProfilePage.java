@@ -1,49 +1,40 @@
 package pages;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import base.PreDefinedAction;
+import constantPath.ConfigFilePath;
+import util.PropertiesFileReader;
 
 public class MyProfilePage extends PreDefinedAction{
+	private PropertiesFileReader myProfilePageProperties;
+	private static MyProfilePage myProfilePage;
 	
+	private MyProfilePage () {
+		myProfilePageProperties=new PropertiesFileReader(ConfigFilePath.MY_PROFILE_PAGE_PROPERTIES);
+	}
+	
+	public static MyProfilePage getInstance() {
+		if(myProfilePage==null)
+			myProfilePage=new MyProfilePage();
+		return myProfilePage;
+	}
 	public String getHeaderText() {
-		WebDriverWait wait =new WebDriverWait(driver,5);
+		/*WebDriverWait wait =new WebDriverWait(driver,5);
 		String headerText = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".header_user_info span")))
 				.getText();
-		return headerText;
+		return headerText*/;
+		return getHeaderText(myProfilePageProperties.getValue("getHeaderText"), true);
 	}
 	
 	public String getUserFullName() {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		/*WebDriverWait wait = new WebDriverWait(driver, 30);
 		String fullName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".account>span")))
 				.getText();
-		return fullName;
+		return fullName;*/
+		return getUserFullName(myProfilePageProperties.getValue("getUserFullName"), true);
 	}
 	
 	public ProductCategoryPage selectSection(String sectionName) {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		WebElement ele = null;
-		switch (sectionName.toUpperCase()) {
-		case "WOMEN":
-			ele = wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.cssSelector("#block_top_menu>ul>li:nth-child(1)")));
-			break;
-		case "DRESSES":
-			ele = wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.cssSelector("#block_top_menu>ul>li:nth-child(2)")));
-			break;
-
-		case "T-SHIRTS":
-			ele = wait.until(ExpectedConditions
-					.visibilityOfElementLocated(By.cssSelector("#block_top_menu>ul>li:nth-child(3)")));
-			break;
-		default:
-			break;
-		}
-		ele.click();
-		return new ProductCategoryPage();
+		return selectSection(sectionName, myProfilePageProperties.getValue("woemnProductCategory"), myProfilePageProperties.getValue("dressProductCategory"),
+				myProfilePageProperties.getValue("tshirtProductCategory=") , true);
 	}
 }
