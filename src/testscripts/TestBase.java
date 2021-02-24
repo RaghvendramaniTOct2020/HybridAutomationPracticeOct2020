@@ -1,5 +1,6 @@
 package testscripts;
 
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -14,7 +15,11 @@ public class TestBase {
 		PreDefinedAction.start();
 	}
 	@AfterMethod
-	public void teardown() {
+	public void teardown(ITestResult result) {
+		if(result.getStatus()==ITestResult.FAILURE) {
+			PreDefinedAction.captureScreenshot(result);
+			System.out.println("Screen shot taken for Failure Step: "+result.getName());
+		}
 		System.out.println("STEP-Close Browser");
 		PreDefinedAction.closeBrowser();
 	}

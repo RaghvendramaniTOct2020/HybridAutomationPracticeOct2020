@@ -13,7 +13,7 @@ import pages.MyProfilePage;
 public class LoginAccountTest extends TestBase {
 	@Test(dataProvider="LoginDataProvider")
 	public void verifyValidLogin(String email, String password,String firstName, String lastName) {
-		HomePage homePage = new HomePage();
+		HomePage homePage = HomePage.getInstance();
 		System.out.println("STEP-Click on Sign in Option");
 		AuthenticationPage authenticationPage = homePage.clickOnSignIn();
 		System.out.println("STEP-Enter email address and Password");
@@ -33,7 +33,7 @@ public class LoginAccountTest extends TestBase {
 	
 	@Test(enabled = false)
 	public void verifyInvalidEmailAddressLogin() {
-		HomePage homePage = new HomePage();
+		HomePage homePage =HomePage.getInstance();
 		AuthenticationPage authenticationPage = homePage.clickOnSignIn();
 		MyProfilePage myProfilePage = authenticationPage.doLogin("hiu@gmail.com", "Test_3429");
 
@@ -44,7 +44,7 @@ public class LoginAccountTest extends TestBase {
 
 	@Test(enabled = false)
 	public void verifyInvalidPasswordLogin() {
-		HomePage homePage = new HomePage();
+		HomePage homePage = HomePage.getInstance();
 		AuthenticationPage authenticationPage = homePage.clickOnSignIn();
 		MyProfilePage myProfilePage = authenticationPage.doLogin("hui.test1@gmail.com", "Pest_3429");
 
@@ -55,7 +55,7 @@ public class LoginAccountTest extends TestBase {
 
 	@Test(enabled = false)
 	public void verifyEnterCredentialsLogin() {
-		HomePage homePage = new HomePage();
+		HomePage homePage = HomePage.getInstance();
 		AuthenticationPage authenticationPage = homePage.clickOnSignIn();
 		authenticationPage.clickOnSignInButton();
 

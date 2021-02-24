@@ -1,19 +1,27 @@
 package pages;
-
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import base.PreDefinedAction;
+import constantPath.ConfigFilePath;
 import pojo.ProductDetailsPojo;
+import util.PropertiesFileReader;
 
 public class ProductDetailsPage extends PreDefinedAction{
+	
+	private PropertiesFileReader productDetailsPageProperties;
+	private static ProductDetailsPage productDetailsPage;
+	
+	private ProductDetailsPage () {
+		productDetailsPageProperties=new PropertiesFileReader(ConfigFilePath.PRODUCT_DETAILS_PAGE_PROPERTIES);
+	}
+	
+	public static ProductDetailsPage getInstance() {
+		if(productDetailsPage==null)
+			productDetailsPage=new ProductDetailsPage();
+		return productDetailsPage;
+	}
+	
+	
 	public ProductDetailsPojo capatureProductDetails(ProductDetailsPojo productDetailsPojo) {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		/*WebDriverWait wait = new WebDriverWait(driver, 30);
 		String productName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1"))).getText();
 		String unitPrice = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#our_price_display"))).getText();
@@ -41,25 +49,30 @@ public class ProductDetailsPage extends PreDefinedAction{
 		productDetailsPojo.setProductDescription(des);
 		productDetailsPojo.setColor(color);
 
-		return productDetailsPojo;
+		return productDetailsPojo;*/
+		return capatureProductDetails(productDetailsPojo, productDetailsPageProperties.getValue("productName"), productDetailsPageProperties.getValue("unitPrice"), 
+				productDetailsPageProperties.getValue("quantity"),productDetailsPageProperties.getValue("size"), 
+				productDetailsPageProperties.getValue("des"), productDetailsPageProperties.getValue("color"), true);
 	}
 
 	public void setQuantity(String numOfQuantity) {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		/*WebDriverWait wait = new WebDriverWait(driver, 30);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#quantity_wanted"))).clear();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#quantity_wanted")))
 				.sendKeys(numOfQuantity);
-		System.out.println("STEP - Quantity is set");
+		System.out.println("STEP - Quantity is set");*/
+		setQuantity(numOfQuantity, productDetailsPageProperties.getValue("quantity"), true);
 	}
 
 	public void setSize(String size) {
-		Select select = new Select(driver.findElement(By.id("group_1")));
+		/*Select select = new Select(driver.findElement(By.id("group_1")));
 		select.selectByVisibleText(size);
-		System.out.println("STEP - Size selected");
+		System.out.println("STEP - Size selected");*/
+		setSize(size,productDetailsPageProperties.getValue("setSize"), false);
 	}
 
 	public void selectColour(String color) {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		/*WebDriverWait wait = new WebDriverWait(driver, 30);
 		switch (color.toUpperCase()) {
 		case "BLUE":
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("color_14"))).click();
@@ -69,46 +82,53 @@ public class ProductDetailsPage extends PreDefinedAction{
 			break;
 		default:
 			break;
-		}
+		}*/
+		selectColour(color, productDetailsPageProperties.getValue("blueColor"), productDetailsPageProperties.getValue("orangeColor"), false);
 	}
 
 	public void clickOnAddToCart() {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#add_to_cart button"))).click();
+		/*WebDriverWait wait = new WebDriverWait(driver, 30);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#add_to_cart button"))).click();*/
+		clickOnAddToCart(productDetailsPageProperties.getValue("clickOnAddToCart"), true);
 	}
 
 	public String verifyProductName() {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		/*WebDriverWait wait = new WebDriverWait(driver, 30);
 		String productName = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(By.id("layer_cart_product_title"))).getText();
-		return productName;
+		return productName;*/
+		return verifyProductName(productDetailsPageProperties.getValue("verifyProductName"), true);
 	}
 
 	public String verifyQuantity() {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		/*WebDriverWait wait = new WebDriverWait(driver, 30);
 		String quantity = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(By.id("layer_cart_product_quantity"))).getText();
-		return quantity;
+		return quantity;*/
+		return verifyQuantity(productDetailsPageProperties.getValue("verifyQuantity"), true);
 	}
 
 	public String verifySizeAndColor() {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		/*WebDriverWait wait = new WebDriverWait(driver, 30);
 		String sizeAndColor = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(By.id("layer_cart_product_attributes"))).getText();
-		return sizeAndColor;
+		return sizeAndColor;*/
+		return verifySizeAndColor(productDetailsPageProperties.getValue("verifySizeAndColor"), true);
 	}
 
 	public String verifyTotalPrice() {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		/*WebDriverWait wait = new WebDriverWait(driver, 30);
 		String totalPrice = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("layer_cart_product_price")))
 				.getText().substring(1);
-		return totalPrice;
+		return totalPrice;*/
+		return verifyTotalPrice(productDetailsPageProperties.getValue("verifyTotalPrice"), true);
 	}
 
 	public ShoppingSummaryPage clickOnProceedToCheckout() {
-		driver.findElement(By.xpath("//a/span[contains(text(), 'Proceed to checkout')]")).click();
+		/*driver.findElement(By.xpath("//a/span[contains(text(), 'Proceed to checkout')]")).click();
 		System.out.println("STEP - Click Proceed to checkout on Product detail page");
-		return new ShoppingSummaryPage();
+		return new ShoppingSummaryPage();*/
+		return clickOnProceedToCheckout(productDetailsPageProperties.getValue("proceedCheckOut"), true);
 	}
 	
 	/* private String getSelectedOption() {

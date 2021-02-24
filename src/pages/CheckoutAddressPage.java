@@ -1,18 +1,24 @@
 package pages;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import base.PreDefinedAction;
+import constantPath.ConfigFilePath;
+import util.PropertiesFileReader;
 
 public class CheckoutAddressPage extends PreDefinedAction{
+	private PropertiesFileReader checkoutAddressPageProperties;
+	private static CheckoutAddressPage checkoutAddressPage;
+	
+	private CheckoutAddressPage () {
+		checkoutAddressPageProperties=new PropertiesFileReader(ConfigFilePath.CHECKOUT_ADDRESS_PAGE_PROPERTIES);
+	}
+	
+	public static CheckoutAddressPage getInstance() {
+		if(checkoutAddressPage==null)
+			checkoutAddressPage=new CheckoutAddressPage();
+		return checkoutAddressPage;
+	}
 	public List<String> getDeliveryAddress() {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+/*		WebDriverWait wait = new WebDriverWait(driver, 30);
 		List<WebElement> eleList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
 				By.cssSelector("#address_delivery li:not([class='address_update']):not([class='address_title'])")));
 
@@ -21,12 +27,12 @@ public class CheckoutAddressPage extends PreDefinedAction{
 			deliveryList.add(ele.getText());
 		}
 
-		return deliveryList;
-
+		return deliveryList;*/
+		return getDeliveryAddress(checkoutAddressPageProperties.getValue("deliveryAddress"), true);
 	}
 
 	public List<String> getBilingAddress() {
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		/*WebDriverWait wait = new WebDriverWait(driver, 30);
 		List<WebElement> eleList = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(
 				By.cssSelector("#address_invoice li:not([class='address_update']):not([class='address_title'])")));
 
@@ -34,14 +40,15 @@ public class CheckoutAddressPage extends PreDefinedAction{
 		for (WebElement ele : eleList) {
 			billingList.add(ele.getText());
 		}
-		return billingList;
-
+		return billingList;*/
+		return getBilingAddress(checkoutAddressPageProperties.getValue("billingAddress"), false);
 	}
 
 	public CheckoutShippingPage clickOnProcessToCheckout() {
-		driver.findElement(By.cssSelector("button[name='processAddress']")).click();
+		/*driver.findElement(By.cssSelector("button[name='processAddress']")).click();
 		System.out.println("STEP - Click Proceed to checkout on Address page");
-		return new CheckoutShippingPage();
+		return CheckoutShippingPage.getInstance();*/
+		return clickOnProcessToCheckoutAddressPage(checkoutAddressPageProperties.getValue("ProcessToCheckout"), true);
 	}
 
 }
